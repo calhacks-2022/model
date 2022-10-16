@@ -3,6 +3,7 @@ import pickle
 from time import sleep
 import requests
 import random
+import re
 from bs4 import BeautifulSoup
 
 NPMJS_URL = 'https://www.npmjs.com/package/{}'
@@ -14,7 +15,14 @@ readmes = [''] * len(pkgs)
 
 readmes = pickle.load(open('readme.pkl', 'rb'))
 
-for i in range(185, len(pkgs)):
+# filter readmes to only alphanumberic characters
+
+for i in range(len(readmes)):
+    readmes[i] = re.sub(r'[^A-Za-z0-9 ]+', '', readmes[i])
+    
+pickle.dump(readmes, open('readme.pkl', 'wb'))
+
+for i in range(70, len(pkgs)):
     if readmes[i] != '':
         continue
     sleep(random.random() + 0.5)
