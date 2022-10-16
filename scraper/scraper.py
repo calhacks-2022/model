@@ -1,3 +1,4 @@
+import sys
 import pickle
 import requests
 from bs4 import BeautifulSoup
@@ -40,27 +41,30 @@ def searchDependents(repo):
         r = requests.get(url)
         soup = BeautifulSoup(r.content, 'html.parser')
         data = [
-            '{}/{}'.format(
-                t.find('a', {'data-repository-hovercards-enabled':''}).text,
-                t.find('a', {'data-hovercard-type':'repository'}).text
-            )
+            {
+                'name': '{}/{}'.format(
+                    t.find('a', {'data-repository-hovercards-enabled':''}).text,
+                    t.find('a', {'data-hovercard-type':'repository'}).text
+                ),
+                'stars': int(t.find('svg', {'class': 'octicon-star'}).parent.text.strip().replace(',', ''))
+            }
             for t in soup.findAll('div', {'class': 'Box-row'})
         ]
+        data = [d['name'] for d in data if d['stars'] > 0]
         if len(data) > 0:
             dependents.extend(data)
             for dependent in data:
                 sampleDependentPkgJson(dependent)
             print('Processed {} dependents for {}'.format(len(dependents), repo))
-            # print('Found {} pkgs:'.format(len(pkgs)))
-            # print(pkgs)
-            # print('Found {} samples:'.format(len(pkg_samples)))
-            # print(pkg_samples)
-            pickle.dump((pkgs, pkg_map, pkg_samples), open('pkg.pkl', 'wb'))
-        else:
-            break
+            pkl = open('pkg.pkl', 'wb')
+            pickle.dump((pkgs, pkg_map, pkg_samples), pkl)
+            pkl.close()
         paginateContainer = soup.find('div', {'class': 'paginate-container'}).find('a')
         if paginateContainer is None:
             break
         url = paginateContainer['href']
 
-searchDependents('facebook/react')
+url = 'https://github.com/mui/material-ui'
+repo = url[url.find('github.com/') + len('github.com/'):]
+print('Processing {}'.format(repo))
+searchDependents(repo)
