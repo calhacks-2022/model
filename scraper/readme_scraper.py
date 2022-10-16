@@ -14,7 +14,7 @@ readmes = [''] * len(pkgs)
 
 readmes = pickle.load(open('readme.pkl', 'rb'))
 
-for i in range(185, len(pkgs)):
+for i in range(70, len(pkgs)):
     if readmes[i] != '':
         continue
     sleep(random.random() + 0.5)
