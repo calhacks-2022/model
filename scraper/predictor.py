@@ -3,7 +3,7 @@ import pickle
 import pkg_parser
 
 def predict(user_json):
-    (pkgs, prob, conf) = pkg_parser.parse_pkg()
+    (pkgs, prob, conf) = pkg_parser.parsePkg()
     user_json = json.load(open('user_package.json', 'r'))
     user_dependencies = user_json['dependencies']
     user_pkgs = [1 for _ in range(len(pkgs))]
@@ -25,3 +25,5 @@ def predict(user_json):
     pkg_suggestions.sort(reverse=True)
     for i in range(10):
         print(pkgs[pkg_suggestions[i][1]], pkg_suggestions[i][0])
+
+# print(predict('user_package.json'))
