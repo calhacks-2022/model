@@ -9,16 +9,17 @@ class BallTreeModel():
         self.num_packages = None
         self.pca = None
         self.bt = None
-        self.encoded_data = None
+        self.pkg_samples = None
     
     def train(self, pkgs, pkg_samples):
         num_packages = len(pkgs)
         self.num_packages = num_packages
-        self.encoded_data = np.zeros((len(pkg_samples), num_packages))
+        encoded_data = np.zeros((len(pkg_samples), num_packages))
+        self.pkg_samples = pkg_samples
         for i in range(len(pkg_samples)):
-            self.encoded_data[i][list(pkg_samples[i])] = 1
+            encoded_data[i][list(pkg_samples[i])] = 1
         self.pca = PCA(n_components=100)
-        transformed_data = self.pca.fit_transform(self.encoded_data)
+        transformed_data = self.pca.fit_transform(encoded_data)
         self.bt = BallTree(transformed_data)
 
     def get_most_similar(self, pkgs):
@@ -35,7 +36,10 @@ class BallTreeModel():
         # print(train_encoded_data[adj].shape)
         ret = []
         for rec in recs:
-            pop = np.sum(self.encoded_data[adj][:,rec])
+            pop = 0
+            for a in adj:
+                if rec in self.pkg_samples[a]:
+                    pop += 1
             ret.append((-pop, rec))
         ret = sorted(ret)
         return ret
