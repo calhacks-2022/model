@@ -10,6 +10,7 @@ class GaussianModel():
         self.cov = None
         self.mean = None
         self.num_packages = None
+        self.cov_inv = None
     
     def train(self, pkgs, pkg_samples):
         num_packages = len(pkgs)
@@ -139,10 +140,22 @@ if __name__ == "__main__":
     train_indices = np.random.choice(len(pkg_samples), round(train_ratio * len(pkg_samples)), replace=False)
     test_indices = np.asarray([i for i in range(len(pkg_samples)) if i not in train_indices])
     pkg_samples_train = np.array(pkg_samples)[train_indices]
-    model = pickle.load(open("gaussian_model.pkl", "rb"))
-    #model = GaussianModel()
+    #model = pickle.load(open("gaussian_model.pkl", "rb"))
+    model = GaussianModel()
+    model.random_projection= pickle.load(open("gaussian_random_projection.pkl", "rb"))
+    model.cov=pickle.load(open("gaussian_cov.pkl", "rb"))
+    model.mean=pickle.load(open("gaussian_mean.pkl", "rb"))
+    model.num_packages=len(pkgs)
+    model.cov_inv=pickle.load(open("gaussian_cov_inv.pkl", "rb"))
     #model.train(pkgs, pkg_samples_train)
     cur_pkgs = [1606, 1607, 1201, 562, 18, 19, 62]
     recs = list(range(1608, 1700))
     print(model.recommend_package(cur_pkgs, recs))
-    #model.save_model()
+    '''
+    model.save_model()
+    pickle.dump(model.random_projection, open("gaussian_random_projection.pkl", "wb"))
+    pickle.dump(model.cov, open("gaussian_cov.pkl", "wb"))
+    pickle.dump(model.mean, open("gaussian_mean.pkl", "wb"))
+    pickle.dump(model.num_packages, open("gaussian_num_packages.pkl", "wb"))
+    pickle.dump(model.cov_inv, open("gaussian_cov_inv.pkl", "wb"))
+    '''
