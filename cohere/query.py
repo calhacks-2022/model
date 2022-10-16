@@ -26,6 +26,6 @@ def user_prompt(api_key, user_input, use_case="summarize"):
     return response.generations[0].text
 
 my_api = "9HCYapYYWPUqjbgkm82BhFQIirVeIqDOa23LRdHw"
-my_question = "text imput"
-user_response = user_prompt(my_api, my_question, "expand")
+my_question = "I want to include a "
+user_response = user_prompt(my_api, my_question, "summarize")
 print('Prediction: {}'.format(user_response))
