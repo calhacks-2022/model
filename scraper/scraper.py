@@ -1,5 +1,6 @@
 import sys
 import pickle
+from time import sleep
 import requests
 from bs4 import BeautifulSoup
 
@@ -13,7 +14,7 @@ pkgs = []
 pkg_map = {} # map of pkg to idx
 pkg_samples = []
 
-(pkgs, pkg_map, pkg_samples) = pickle.load(open('pkg.pkl', 'rb'))
+(pkgs, pkg_samples) = pickle.load(open('pkg.pkl', 'rb'))
 
 def sampleDependentPkgJson(repo):
     sample = set()
@@ -22,10 +23,6 @@ def sampleDependentPkgJson(repo):
     if r.status_code == 200:
         pkg_json = r.json()
         dependencies = pkg_json.get('dependencies', {})
-        dev_dependencies = pkg_json.get('devDependencies', {})
-        peer_dependencies = pkg_json.get('peerDependencies', {})
-        dependencies.update(dev_dependencies)
-        dependencies.update(peer_dependencies)
         for dependency in dependencies:
             if dependency not in pkg_map:
                 pkg_map[dependency] = len(pkg_map)
@@ -57,14 +54,18 @@ def searchDependents(repo):
                 sampleDependentPkgJson(dependent)
             print('Processed {} dependents for {}'.format(len(dependents), repo))
             pkl = open('pkg.pkl', 'wb')
-            pickle.dump((pkgs, pkg_map, pkg_samples), pkl)
+            pickle.dump((pkgs, pkg_samples), pkl)
             pkl.close()
-        paginateContainer = soup.find('div', {'class': 'paginate-container'}).find('a')
+        paginateContainer = soup.find('div', {'class': 'paginate-container'})
+        while paginateContainer == None:
+            paginateContainer = soup.find('div', {'class': 'paginate-container'})
+            sleep(0.1)
+        paginateContainer = paginateContainer.find('a')
         if paginateContainer is None:
             break
         url = paginateContainer['href']
 
-url = 'https://github.com/mui/material-ui'
+url = 'https://github.com/vercel/next.js'
 repo = url[url.find('github.com/') + len('github.com/'):]
 print('Processing {}'.format(repo))
 searchDependents(repo)

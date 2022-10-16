@@ -1,13 +1,13 @@
 import pickle
 
 def parse_pkg():
-    (pkgs, _, pkg_samples) = pickle.load(open('pkg.pkl', 'rb'))
+    (pkgs, pkg_samples) = pickle.load(open('pkg.pkl', 'rb'))
     pkg_cnts = [0 for _ in range(len(pkgs))]
     for sample in pkg_samples:
         for pkg in sample:
             pkg_cnts[pkg] += 1
     pkg_pair_cnts = [[0 for _ in range(len(pkgs))] for _ in range(len(pkgs))]
-    # (probability i exists given j exists, probability i exists given j does not exist)
+    # (probability i given j, probability i given NOT j)
     for sample in pkg_samples:
         for pkg1 in sample:
             for pkg2 in sample:
@@ -18,8 +18,12 @@ def parse_pkg():
         for j in range(len(pkgs)):
             if i == j:
                 continue
-            prob[i][j] = (pkg_pair_cnts[i][j] / pkg_cnts[j], (pkg_cnts[j] - pkg_pair_cnts[i][j]) / (len(pkg_samples) - pkg_cnts[j]))
+            elif pkg_cnts[j] == 0:
+                prob[i][j] = (0, 1)
+            else:
+                prob[i][j] = (pkg_pair_cnts[i][j] / pkg_cnts[j],
+                                (pkg_cnts[j] - pkg_pair_cnts[i][j]) / (len(pkg_samples) - pkg_cnts[j]))
             conf[i][j] = (pkg_cnts[i] + pkg_cnts[j] - pkg_pair_cnts[i][j]) / len(pkg_samples)
     return (pkgs, prob, conf)
 
-print(parse_pkg())
+print(parse_pkg()[1])
