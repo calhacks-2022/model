@@ -27,7 +27,6 @@ class GaussianModel():
         return (encoding - self.mean) @ (self.cov_inv @ (encoding - self.mean))
     
     def recommend_package(self, pkgs, recs):
-        print(self.mean)
         new_pkgs = np.zeros(self.num_packages)
         new_pkgs[pkgs] = 1
         ret = []
