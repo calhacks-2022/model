@@ -9,7 +9,7 @@ def layer_1(user_input):
     with open('google_cloud_apikey.txt') as f:
         google_api_key = f.readline()
     
-    cohere_suggestions = get_recommendations(cohere_api_key, user_input)
+    cohere_suggestions = get_recommendations(cohere_api_key, user_input) + [user_input]
     plausible_packages = search_npm(google_api_key, cohere_suggestions)
     return plausible_packages
 
