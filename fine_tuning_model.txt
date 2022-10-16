@@ -1,0 +1,233 @@
+User: What is the best react library that I can install and use for making UI components in React
+List:@mui/material 
+antd 
+reactstrap 
+@coreui/react 
+semantic-ui-react
+--
+User: UI components
+List:
+semantic-ui-react
+antd 
+reactstrap
+@mui/material 
+@coreui/react 
+--
+User: What is the best library that I can install and use for making API requests in React?
+List:axios
+@types/superagent
+ky
+popsicle
+stream-http
+--
+User: API requests
+List:axios
+@types/superagent
+popsicle
+stream-http
+ky
+--
+User: I want to include some icons
+List:material-design-icons 
+fontawesome 
+ionicons 
+react-native-icons 
+octicons 
+--
+User: icons
+List:octicons 
+fontawesome 
+ionicons 
+material-design-icons 
+react-native-icons 
+--
+User: I want to install and parse XML to JSON in my React project for school
+List:xml2js 
+xml2json 
+simple-xml-to-json 
+fast-xml-parser
+@xmldom/xmldom
+--
+User: XML to JSON
+List:xml2js 
+fast-xml-parser
+xml2json 
+simple-xml-to-json 
+@xmldom/xmldom
+--
+User: animation components
+List: reactstrap 
+react-spring 
+react-move 
+remotion
+framer-motion
+--
+User: I need to include animated components on my webpage
+List: react-move 
+remotion
+framer-motion
+reactstrap 
+react-spring 
+--
+User: dropdown
+List:downshift
+react-single-dropdown
+react-select-search
+react-dropdown-tree-select
+react-multi-select-component
+--
+User: I want to have a dropdown menu somewhere
+List:downshift
+react-single-dropdown
+react-multi-select-component
+react-select-search
+react-dropdown-tree-select
+--
+User: data visualization
+List:react-chartjs-2
+recharts
+victory
+@visx/visx
+nivo
+--
+User: I want to be able to visualize the data I have
+List:react-chartjs-2
+@visx/visx
+nivo
+recharts
+victory
+--
+User: countdown timer
+List:react-timer-component
+react-timer
+react-countdown
+--
+User: Best countdown timer integrations
+List:react-timer-component
+react-timer
+react-countdown
+--
+User: validate email
+List:react-email-validator
+react-js-validator
+@secretsofsume/valid-email
+validate-utility
+react-weblineindia-email
+--
+User: best way to validate emails in React
+List:@secretsofsume/valid-email
+validate-utility
+react-js-validator
+react-weblineindia-email
+react-email-validator
+--
+User: calendar integration
+List:react-calendar
+react-big-calendar
+@fullcalendar/react
+react-calendar-timeline
+expo-calendar
+--
+User: Best calendar integration for React
+List:@fullcalendar/react
+react-calendar
+react-big-calendar
+expo-calendar
+react-calendar-timeline
+--
+User: authentication
+List:@auth0/auth0-react
+@azure/msal-react
+redux-auth-wrapper
+@axa-fr/react-oidc-context
+react-aad-msal
+--
+User: I want to authenticate the user's email input
+List: @axa-fr/react-oidc-context
+@azure/msal-react
+redux-auth-wrapper
+react-aad-msal
+@auth0/auth0-react
+--
+User: I want to add a video player to my React project. 
+List: react-player 
+react-youtube 
+video-react 
+--
+User: Video player
+List: react-player 
+react-youtube 
+video-react 
+-- 
+User: I want a canvas component in React 
+List: react-canvas-draw 
+react-canvas 
+react-sketch 
+create-react-canvas 
+react-canvas-component 
+-- 
+User: canvas component
+List: react-canvas-draw 
+react-canvas 
+react-sketch 
+create-react-canvas 
+react-canvas-component 
+-- 
+User: Add datepicker in React 
+List: react-datepicker 
+react-datetime-picker 
+react-datetimepicker 
+react-fullcalendar 
+react-day-picker 
+react-picker 
+react-week-calendar 
+-- 
+User: datepicker
+List: 
+react-datetimepicker 
+react-fullcalendar 
+react-datepicker 
+react-day-picker 
+react-datetime-picker 
+react-picker 
+react-week-calendar 
+-- 
+User: I want a color picker component in react 
+List: react-color 
+coloreact 
+react-input-color 
+react-color-picker 
+react-hex-picker 
+react-color-wheel 
+react-js-color 
+react-color-input 
+-- 
+User: Color picker
+List: react-color 
+react-color-wheel 
+coloreact 
+react-hex-picker 
+react-js-color 
+react-input-color 
+react-color-picker 
+react-color-input 
+-- 
+User: Loading bar for react UI 
+List: react-load-more 
+react-flex-loader 
+react-custom-loader 
+react-redux-loading-bar 
+react-animated-loader 
+react-spinner 
+react-progress-bar 
+react-load-indicator 
+-- 
+User: Loading bar
+List: react-custom-loader 
+react-load-more 
+react-flex-loader 
+react-load-indicator 
+react-redux-loading-bar 
+react-spinner 
+react-animated-loader 
+react-progress-bar
