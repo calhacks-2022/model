@@ -6,7 +6,7 @@ from sklearn.decomposition import PCA
 
 pkgs, pkg_samples = pickle.load(open('pkg.pkl', 'rb'))
 num_packages = len(pkgs)
-print(num_packages)
+# print(num_packages)
 encoded_data = np.zeros((len(pkg_samples), num_packages))
 for i in range(len(pkg_samples)):
     encoded_data[i][list(pkg_samples[i])] = 1
