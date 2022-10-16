@@ -1,0 +1,29 @@
+import cohere
+def get_recommendations(api_key, query):
+    co = cohere.Client(api_key)
+    response = co.generate(
+    model='large',
+    prompt='User: What is the best react library that I can install and use for making UI components in React?\nList:\n@mui/material \nantd \nreactstrap \n@coreui/react \n--\n'
+        +'User: What is the best library that I can install and use for making API requests in React?\nList:\nreact-spring \nreact-move \nreact-fade \nreact-blink \n--\n'
+        +'User: I want to include some icons\nList:\nmaterial-design-icons \nfontawesome \nionicons \nreact-native-icons \nocticons \n--\n'
+        +'User: I want to install and parse XML to JSON in my React project for school\nList:\nxml2js \nxml2json \nsimple-xml-to-json \n--\n'
+        +'User: animation components|\nreactstrap \nreact-spring \nreact-move \nreact-blink \n--\n'
+        +'User: dropdown\nList:\nmaterial-ui-dropdown \nreact-dropdown \n--\n'
+        +'User: data visualization\nList:\nreact-datasette \nreact-d3 \nreact-easy-scatter-plot\n--\n'
+        +'User: I want to have a timer on my website\nList:\ntimeago \ntime\n--\n'
+        +'User: '
+        + query
+        + '\nList:',
+    max_tokens=100,
+    temperature=0.8,
+    k=0,
+    p=1,
+    frequency_penalty=0,
+    presence_penalty=0,
+    stop_sequences=["--"],
+    return_likelihoods='NONE')
+    return response.generations[0].text
+
+my_api = '9HCYapYYWPUqjbgkm82BhFQIirVeIqDOa23LRdHw'
+my_query = 'Embed an excel sheet'
+print(get_recommendations(my_api, my_query))
