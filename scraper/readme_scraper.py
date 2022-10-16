@@ -13,16 +13,9 @@ pkgs = []
 (pkgs, _) = pickle.load(open('pkg.pkl', 'rb'))
 readmes = [''] * len(pkgs)
 
-readmes = pickle.load(open('readme.pkl', 'rb'))
+#readmes = pickle.load(open('readme4000.pkl', 'rb'))
 
-# filter readmes to only alphanumberic characters
-
-for i in range(len(readmes)):
-    readmes[i] = re.sub(r'[^A-Za-z0-9 ]+', '', readmes[i])
-    
-pickle.dump(readmes, open('readme.pkl', 'wb'))
-
-for i in range(70, len(pkgs)):
+for i in range(4000, len(pkgs)):
     if readmes[i] != '':
         continue
     sleep(random.random() + 0.5)
@@ -53,7 +46,7 @@ for i in range(70, len(pkgs)):
                 else:
                     print('Failed to get readme for {}, url {}'.format(pkgs[i], url))
                     readmes[i] = ' '
-    pickle.dump(readmes, open('readme.pkl', 'wb'))
+    pickle.dump(readmes, open('readme4000.pkl', 'wb'))
     count = 0
     for readme in readmes:
         if len(readme) > 2:

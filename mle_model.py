@@ -1,7 +1,7 @@
 from base64 import encode
 import numpy as np
 import pickle
-from sklearn.random_projection import johnson_lindenstrauss_min_dim, GaussianRandomProjection
+#from sklearn.random_projection import johnson_lindenstrauss_min_dim, GaussianRandomProjection
 import matplotlib.pyplot as plt
 
 class GaussianModel():
