@@ -35,6 +35,7 @@ def searchDependencies(pkg):
         dependency_graph[pkgToIdx(pkg)] = set()
         url = npmjs_url.format(pkg)
         r = requests.get(url)
+        time.sleep(0.3)
         soup = BeautifulSoup(r.text, 'html.parser')
         dependencies = soup.find_all('ul', {'aria-label': 'Dependencies'})
         if len(dependencies) > 0:
@@ -51,6 +52,5 @@ def getDependencyGraph2():
         searchDependencies(pkgs[i])
         pickle.dump((dependency_graph, extra_pkgs), open('dependency_graph.pkl', 'wb'))
         print('Processed {} out of {} packages'.format(i + 1, len_pkgs))
-        time.sleep(0.2)
 
 getDependencyGraph2()
