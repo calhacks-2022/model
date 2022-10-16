@@ -5,7 +5,6 @@ def search_npm(api_key, queries):
     for query in queries:
         r = requests.get(f"https://www.googleapis.com/customsearch/v1?key={api_key}&cx=626e50bc7dd2043a2&q={query}&fields=items(link)")
         res = r.json()
-        print(res)
         if 'items' not in res:
             print("Error")
             print(queries)

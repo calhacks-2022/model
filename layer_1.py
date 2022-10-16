@@ -3,10 +3,10 @@ from npm_search import search_npm
 
 def layer_1(user_input):
     cohere_api_key = ""
-    with open('../cohere_apikey.txt') as f:
+    with open('cohere_apikey.txt') as f:
         cohere_api_key = f.readline()
     google_api_key = ""
-    with open('../google_cloud_apikey.txt') as f:
+    with open('google_cloud_apikey.txt') as f:
         google_api_key = f.readline()
     
     cohere_suggestions = get_recommendations(cohere_api_key, user_input)
