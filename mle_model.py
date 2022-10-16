@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 class GaussianModel():
     def __init__(self):
-        self.random_projection = GaussianRandomProjection(n_components=120)
+        self.random_projection = None
         self.cov = None
         self.mean = None
         self.num_packages = None
@@ -18,7 +18,8 @@ class GaussianModel():
         encoded_data = np.zeros((len(pkg_samples), num_packages))
         for i in range(len(pkg_samples)):
             encoded_data[i][list(pkg_samples[i])] = 1
-        transformed_data = self.random_projection.fit_transform(encoded_data)
+        self.random_projection = GaussianRandomProjection(n_components=120).fit(encoded_data).components_
+        transformed_data = encoded_data @ self.random_projection.T
         self.cov = np.cov(transformed_data.T)
         self.mean = np.mean(transformed_data, axis=0)
         self.cov_inv = np.linalg.inv(self.cov)
@@ -39,7 +40,7 @@ class GaussianModel():
             '''
             pkgs_copy = new_pkgs.copy()
             pkgs_copy[rec] += 1
-            transformed_pkgs = np.reshape(self.random_projection.transform(np.reshape(pkgs_copy, (1, -1))), -1)
+            transformed_pkgs = pkgs_copy @ self.random_projection.T
             score = self.log_likelihood(transformed_pkgs)
             ret.append((score, rec))
         ret = sorted(ret)
@@ -134,11 +135,12 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     pkgs, pkg_samples = pickle.load(open('pkg.pkl', 'rb'))
-    train_ratio = 0.9
+    train_ratio = 1
     train_indices = np.random.choice(len(pkg_samples), round(train_ratio * len(pkg_samples)), replace=False)
     test_indices = np.asarray([i for i in range(len(pkg_samples)) if i not in train_indices])
     pkg_samples_train = np.array(pkg_samples)[train_indices]
     model = pickle.load(open("gaussian_model.pkl", "rb"))
+    #model = GaussianModel()
     #model.train(pkgs, pkg_samples_train)
     cur_pkgs = [1606, 1607, 1201, 562, 18, 19, 62]
     recs = list(range(1608, 1700))
