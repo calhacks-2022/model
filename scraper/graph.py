@@ -14,5 +14,5 @@ def get_dependency_graph():
             print(pkgs[i])
     pickle.dump(dependency_graph, open('dependency_graph.pkl', 'wb'))
     return dependency_graph
-    
+
 print(get_dependency_graph())
