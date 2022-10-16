@@ -11,7 +11,6 @@ PKG_JSON_URL = 'https://raw.githubusercontent.com/{}/main/package.json'
 DEPENDENTS_URL = 'https://github.com/{}/network/dependents'
 
 pkgs = []
-pkg_map = {} # map of pkg to idx
 pkg_samples = []
 
 (pkgs, pkg_samples) = pickle.load(open('pkg.pkl', 'rb'))
@@ -21,21 +20,27 @@ def sampleDependentPkgJson(repo):
     url = PKG_JSON_URL.format(repo)
     r = requests.get(url)
     if r.status_code == 200:
-        pkg_json = r.json()
-        dependencies = pkg_json.get('dependencies', {})
-        for dependency in dependencies:
-            if dependency not in pkg_map:
-                pkg_map[dependency] = len(pkg_map)
-                pkgs.append(dependency)
-            sample.add(pkg_map[dependency])
-        if sample:
-            pkg_samples.append(sample)
+        try:
+            pkg_json = r.json()
+            dependencies = pkg_json.get('dependencies', {})
+            for dependency in dependencies:
+                if dependency not in pkgs:
+                    pkgs.append(dependency)
+                sample.add(pkgs.index(dependency))
+            if sample:
+                pkg_samples.append(sample)
+        except:
+            pass
 
 def searchDependents(repo):
     dependents = []
     url = DEPENDENTS_URL.format(repo)
     for _ in range(MAX_PAGES):
-        r = requests.get(url)
+        try:
+            r = requests.get(url)
+        except:
+            sleep(1)
+            continue
         soup = BeautifulSoup(r.content, 'html.parser')
         data = [
             {
@@ -52,20 +57,22 @@ def searchDependents(repo):
             dependents.extend(data)
             for dependent in data:
                 sampleDependentPkgJson(dependent)
-            print('Processed {} dependents for {}'.format(len(dependents), repo))
+            print('Processed {} dependents for {}, total packages {}, total samples {}, url {}'.format(len(dependents), repo, len(pkgs), len(pkg_samples), url))
             pkl = open('pkg.pkl', 'wb')
             pickle.dump((pkgs, pkg_samples), pkl)
             pkl.close()
         paginateContainer = soup.find('div', {'class': 'paginate-container'})
-        while paginateContainer == None:
+        while paginateContainer is None:
+            sleep(1)
+            r = requests.get(url)
+            soup = BeautifulSoup(r.content, 'html.parser')
             paginateContainer = soup.find('div', {'class': 'paginate-container'})
-            sleep(0.1)
-        paginateContainer = paginateContainer.find('a')
+        paginateContainer = paginateContainer.findAll('a')
         if paginateContainer is None:
             break
-        url = paginateContainer['href']
+        url = paginateContainer[-1]['href']
 
-url = 'https://github.com/vercel/next.js'
+url = 'https://github.com/facebook/react'
 repo = url[url.find('github.com/') + len('github.com/'):]
 print('Processing {}'.format(repo))
 searchDependents(repo)
