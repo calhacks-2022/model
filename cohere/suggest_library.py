@@ -23,8 +23,3 @@ def get_recommendations(api_key, query):
     stop_sequences=["--"],
     return_likelihoods='NONE')
     return response.generations[0].text.split("\n")[:-1]
-
-if __name__ == "__main__":
-    my_api = '9HCYapYYWPUqjbgkm82BhFQIirVeIqDOa23LRdHw'
-    my_query = 'drag and drop interface'
-    print(get_recommendations(my_api, my_query))
