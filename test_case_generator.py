@@ -7,10 +7,13 @@ def generate_test_cases(num_test_cases):
     num_samples = len(pkg_samples)
     num_pkgs = len(pkgs)
 
-    pkg_sample_lengths = np.asarray([len(sample) for sample in pkg_samples])
-    pkg_sample_lengths = pkg_sample_lengths / np.sum(pkg_sample_lengths)
+    pkg_freqs = np.zeros(num_pkgs)
+    for sample in pkg_samples:
+        for package in sample:
+            pkg_freqs[package] += 1
+    pkg_freqs = pkg_freqs / np.sum(pkg_freqs)
 
-    samples_chosen = np.random.choice(num_samples, num_test_cases, p=pkg_sample_lengths)
+    samples_chosen = np.random.choice(num_samples, num_test_cases)
     choose_pos = np.random.rand(num_test_cases) < 0.25
 
     test_cases = [] # each element is of the form (set of package, predicted package, 0/1)
@@ -21,13 +24,13 @@ def generate_test_cases(num_test_cases):
         if choose_pos[i]:
             test_cases.append((sample, removed_el, 1))
         else:
-            while True:
-                wrong_num = np.random.randint(num_pkgs)
-                if wrong_num != removed_el and wrong_num not in sample:
-                    test_cases.append((sample, wrong_num, 0))
-                    break
+            label = np.random.choice(num_pkgs, p=pkg_freqs)
+            if not label in sample:
+                test_cases.append((sample, label, 0))
+            else:
+                test_cases.append((sample, label, 1))
 
     return test_cases
 
 if __name__ == "__main__":
-    print(generate_test_cases(10))
+    print(generate_test_cases(50000))
