@@ -15,7 +15,7 @@ def get_recommendations(api_key, query):
         + query
         + '\nList:',
     max_tokens=100,
-    temperature=0.8,
+    temperature=1,
     k=0,
     p=1,
     frequency_penalty=0,
